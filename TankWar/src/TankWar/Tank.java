@@ -13,10 +13,6 @@ import java.util.*;
  */
 
 public interface Tank {
-	//坦克移动速度
-	public static final int XSPEED=5;
-	public static final int YSPEED=5;
-	
 	/**
 	 * 这个方法是画出坦克
 	 * @param g  窗口的画笔

@@ -11,8 +11,8 @@ import java.util.Random;
 
 public class EnemyTank implements Tank{
 	//坦克移动速度
-	public static final int XSPEED=5;
-	public static final int YSPEED=5;
+	private int XSPEED=5;
+	private int YSPEED=5;
 	//坦克的生命状态
 	private boolean live=true;
 	private int life=2;//坦克的生命值,普通坦克为2，敏捷型坦克为1，重型坦克为3
@@ -307,5 +307,9 @@ public class EnemyTank implements Tank{
 			return true;
 		}
 		return false;
+	}
+	public void setSpeed(int sx,int sy) {
+		this.XSPEED=sx;
+		this.YSPEED=sy;
 	}
 }

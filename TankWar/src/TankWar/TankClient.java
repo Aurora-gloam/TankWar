@@ -8,10 +8,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
+import java.util.Random;
 /**
  * 
  * @author 杨文燕
@@ -23,11 +22,10 @@ public class TankClient extends Frame{
 	public static final int GAME_WIDTH=1000;//窗口宽度
 	public static final int GAME_HEIGHT=800;//窗口高度
 	
+	private int level=1;
+	
 	Tank myTank=new MyTank(300,800,true,Direction.STOP,this);//己方坦克
 	Tank protectedTank=new MyTank(500,800,true,Direction.STOP,this);//己方守护的坦克
-	
-	Wall w4=new Wall(441,680,"wall"),w5=new Wall(561,680,"wall"),w3=new Wall(441,740,"wall");
-	Wall w1=new Wall(561,740,"wall"),w2=new Wall(501,680,"wall");//障碍物
 	
 	Blood bl=new Blood();//增长坦克生命的血块
 	
@@ -43,20 +41,18 @@ public class TankClient extends Frame{
 	 * 以及显示提示性的语句
 	 */
 	public void paint(Graphics g) {
-		g.drawString("missiles count:"+missiles.size(), 10, 50);
-		g.drawString("explodes count:"+explodes.size(), 10, 70);
-		g.drawString("剩余敌方坦克数:"+tanks.size(), 10, 90);
-		g.drawString("生命值mytank life:"+myTank.getLife(), 10, 110);
-		
-		if(!myTank.isLive()||!protectedTank.isLive())
-			g.drawString("很遗憾，您输了", 400, 300);
-		else if(tanks.size()==0)
-			g.drawString("恭喜，获得了胜利！", 400, 300);
-		
-		if(tanks.size()<=0) {
-			for(int i=0;i<Integer.parseInt(PropertyMgr.getProperty("reProduceTankCount"));i++) {
-				tanks.add(new EnemyTank(50+40*(i+1),50,false,Direction.D,this));
+		if(tanks.size()<=0) {//己方打倒所有敌方坦克时，重新生成地图并且加入新的坦克
+			createWalls();
+			for(int i=0;i<Integer.parseInt(PropertyMgr.getProperty("initTankCount"))-level;i++) {
+				tanks.add(new EnemyTank(50+60*(i+1),50,false,Direction.D,this));
 			}
+			for(int i=0;i<level;i++) {
+				if(i%2==0)
+				tanks.add(new HeavyTank(50+40*(i+1),50,false,Direction.D,this));
+				else
+					tanks.add(new AgilityTank(50+40*(i+1),50,false,Direction.D,this));
+			}
+			level+=1;
 		}
 		
 		for(int i=0;i<missiles.size();i++){
@@ -81,18 +77,15 @@ public class TankClient extends Frame{
 			t.draw(g);
 		}
 		
-		 myTank.draw(g);//画出己方坦克
-		 myTank.collideaWithWall(walls);//进行与障碍物的碰撞检测，使之无法穿过障碍物
-		 myTank.eat(bl);//己方坦克吃掉生命值增长的道具
-		 
+		if(protectedTank.isLive()) {
+			myTank.draw(g);//画出己方坦克
+			myTank.collideaWithWall(walls);//进行与障碍物的碰撞检测，使之无法穿过障碍物
+			myTank.eat(bl);//己方坦克吃掉生命值增长的道具
+		}
+		
 		 protectedTank.setLife(1);
 		 protectedTank.draw(g);
 		 
-		 walls.add(w1);
-		 walls.add(w2);
-		 walls.add(w3);
-		 walls.add(w4);
-		 walls.add(w5);
 		 for(int i=0;i<walls.size();i++) {
 				Wall w=walls.get(i);
 				w.draw(g);//画出障碍物
@@ -122,6 +115,8 @@ public void update(Graphics g) {
 		for(int i=0;i<initTankCount;i++) {
 			tanks.add(new AgilityTank(50+60*(i+1),50,false,Direction.D,this));
 		}
+		
+		createWalls();
 		
 		this.setSize(GAME_WIDTH,GAME_HEIGHT);
 		this.setTitle("TankWar");
@@ -176,5 +171,33 @@ public void update(Graphics g) {
 			myTank.keyPressed(e);
 		}
 		
+	}
+	/**
+	 * 这个方法是创建地图上墙体的分布
+	 */
+	public void createWalls() {
+		Random r=new Random();
+		int step=r.nextInt(20)+20;
+		String type;
+		int x;
+		int y;
+		Wall w4=new Wall(441,680,"wall"),w5=new Wall(561,680,"wall"),w3=new Wall(441,740,"wall");
+		Wall w1=new Wall(561,740,"wall"),w2=new Wall(501,680,"wall");//障碍物
+		walls.add(w1);
+		walls.add(w2);
+		walls.add(w3);
+		walls.add(w4);
+		walls.add(w5);
+		for(int i=0;i<step;i++) {
+			x=r.nextInt(900)+50;
+			y=r.nextInt(550)+100;
+			if(i%4==0)
+				type="steel";
+			else if(i%5==0)
+				type="grass";
+			else
+				type="wall";
+			walls.add(new Wall(x,y,type));
+		}
 	}
 }

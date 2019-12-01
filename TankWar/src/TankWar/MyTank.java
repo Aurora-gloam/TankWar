@@ -15,7 +15,7 @@ public class MyTank implements Tank{
 	public static final int YSPEED=5;
 	//坦克的生命状态
 	private boolean live=true;
-	private int life=2;//坦克的生命值,普通坦克为2，敏捷型坦克为1，重型坦克为3
+	private int life=2;//坦克的生命值,普通坦克为2，基地的坦克为1
 
 	TankClient tc;
 	
@@ -183,7 +183,6 @@ public class MyTank implements Tank{
 		else if(key==KeyEvent.VK_F2) {
 			if(!this.live) {
 				this.live=true;
-				this.life=5;
 				this.x=300;
 				this.y=800;
 			}

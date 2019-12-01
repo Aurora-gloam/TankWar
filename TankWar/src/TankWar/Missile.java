@@ -129,6 +129,7 @@ public class Missile {
 	 */
 	public boolean hitTank(Tank t) {
 		if(this.live&&this.getRect().intersects(t.getRect())&&t.isLive()&&this.good!=t.isGood()) {
+			if(this.good!=t.isGood())
 				t.setLife(t.getLife()-1);
 				if(t.getLife()<=0)
 					t.setLive(false);

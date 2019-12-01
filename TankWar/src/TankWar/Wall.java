@@ -4,8 +4,11 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 /**
  * 这个类是墙体类
  * @author 杨文燕
@@ -16,6 +19,7 @@ public class Wall {
 	int x,y,w,h;//墙体的位置以及宽度、高度
 	TankClient tc;
 	String type=null;
+	
 
 	private boolean live=true;
 
@@ -75,4 +79,5 @@ public class Wall {
 		return new Rectangle(x,y,wallImages[0].getWidth(null),wallImages[0].getHeight(null));
 		
 	}
+
 }
