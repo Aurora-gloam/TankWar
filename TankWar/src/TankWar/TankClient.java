@@ -23,12 +23,15 @@ public class TankClient extends Frame{
 	public static final int GAME_WIDTH=800;//窗口宽度
 	public static final int GAME_HEIGHT=600;//窗口高度
 	
-	Tank myTank=new Tank(400,600,true,Direction.STOP,this);//己方坦克
+	Tank myTank=new Tank(280,600,true,Direction.STOP,this);//己方坦克
+	Tank protectedTank=new Tank(400,600,true,Direction.STOP,this);//己方守护的坦克
 	
-	Wall w1=new Wall(100,200,20,150,this),w2=new Wall(300,100,300,20,this);//障碍物
+	Wall w1=new Wall(330,540,"wall"),w2=new Wall(450,540,"wall"),w3=new Wall(330,480,"wall");
+	Wall w4=new Wall(450,480,"wall"),w5=new Wall(390,480,"wall");//障碍物
 	
 	Blood bl=new Blood();//增长坦克生命的血块
 	
+	List<Wall> walls=new ArrayList<Wall>();//墙体
 	List<Tank> tanks=new ArrayList<Tank>();//敌方坦克
 	List<Explode> explodes=new ArrayList<Explode>();//爆炸效果
 	List<Missile> missiles=new ArrayList<Missile>();//坦克发出的子弹
@@ -46,9 +49,9 @@ public class TankClient extends Frame{
 		g.drawString("生命值mytank life:"+myTank.getLife(), 10, 110);
 		
 		if(!myTank.isLive())
-			g.drawString("L O S T !", 400, 300);
+			g.drawString("很遗憾，您输了", 400, 300);
 		else if(tanks.size()==0)
-			g.drawString("W I N !", 400, 300);
+			g.drawString("恭喜，获得了胜利！", 400, 300);
 		
 		if(tanks.size()<=0) {
 			for(int i=0;i<Integer.parseInt(PropertyMgr.getProperty("reProduceTankCount"));i++) {
@@ -73,18 +76,24 @@ public class TankClient extends Frame{
 		for(int i=0;i<tanks.size();i++) {
 			Tank t=tanks.get(i);
 			t.collideaWithTank(tanks);//进行敌方坦克之间的碰撞检测，使之无法互相穿透
-			t.collidesWithWall(w1);//进行与障碍物的碰撞检测，使之无法穿过障碍物
-			t.collidesWithWall(w2);
+			t.collideaWithWall(walls);//进行与障碍物的碰撞检测，使之无法穿过障碍物
 			t.draw(g);
 		}
 		
 		 myTank.draw(g);//画出己方坦克
-		 myTank.collidesWithWall(w1);//进行与障碍物的碰撞检测，使之无法穿过障碍物
-		 myTank.collidesWithWall(w2);
+		 myTank.collideaWithWall(walls);//进行与障碍物的碰撞检测，使之无法穿过障碍物
 		 myTank.eat(bl);//己方坦克吃掉生命值增长的道具
+		 protectedTank.draw(g);
 		 
-		 w1.draw(g);//画出障碍物
-		 w2.draw(g);
+		 walls.add(w1);
+		 walls.add(w2);
+		 walls.add(w3);
+		 walls.add(w4);
+		 walls.add(w5);
+		 for(int i=0;i<walls.size();i++) {
+				Wall w=walls.get(i);
+				w.draw(g);//画出障碍物
+			}
 		 
 		 bl.draw(g);//画出生命值增长的道具
 	}

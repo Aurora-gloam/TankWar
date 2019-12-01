@@ -174,7 +174,7 @@ public class Missile {
 	 * @return    是否撞到墙体，若是返回true，否则返回false
 	 */
 	public boolean hitMissile(Missile m) {
-		if(this.live&&this.getRect().intersects(m.getRect())&&this.good!=m.isGood()) {
+		if(this.live&&this.getRect().intersects(m.getRect())&&this.good!=m.isGood()&&this!=m&&m.isLive()) {
 			this.live=false;
 			m.setLive(false);
 			return true;

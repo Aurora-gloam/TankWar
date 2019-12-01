@@ -221,7 +221,7 @@ public class Tank {
 		else if(key==KeyEvent.VK_DOWN) {
 			bD=false;
 		}
-		else if(key==KeyEvent.VK_CONTROL) {
+		else if(key==32) {//空格键的键值为32
 			fire();
 		}
 		locateDirection();
@@ -261,10 +261,13 @@ public class Tank {
 	 * @param w   撞击的墙体
 	 * @return    是否撞击到墙体，若是返回true，否则返回false
 	 */
-	public boolean collidesWithWall(Wall w) {
-		if(this.live&&this.getRect().intersects(w.getRect())) {
-			this.stay();
-			return true;
+	public boolean collideaWithWall(java.util.List<Wall> walls) {
+		for(int i=0;i<walls.size();i++) {
+			Wall w=walls.get(i);
+			if(this.live&&w.isLive()&&this.getRect().intersects(w.getRect())) {
+				this.stay();
+				return true;
+			}
 		}
 		return false;
 	}

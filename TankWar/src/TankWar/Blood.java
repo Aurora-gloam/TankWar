@@ -3,6 +3,7 @@ package TankWar;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.Random;
 /**
  * 
  * @author 杨文燕
@@ -13,8 +14,10 @@ import java.awt.Rectangle;
 public class Blood {
 	int x,y,w,h;//道具的位置与宽度、高度
 	TankClient tc;
-	private int life=100;//
-	private boolean live=true;
+	private int life=100;
+	private static Random r=new Random();
+	private int step=r.nextInt(200);
+	private boolean live=false;
 	
 	public boolean isLive() {
 		return live;
@@ -32,6 +35,12 @@ public class Blood {
 	}
 	
 	public void draw(Graphics g) {
+		if(step==0) {
+			this.live=false;
+			step=r.nextInt(200)+100;
+		}
+		step--;
+		
 		if(!this.live)return;
 		Color c=g.getColor();
 		g.setColor(Color.MAGENTA);
@@ -42,6 +51,7 @@ public class Blood {
 		if(this.life<=0) {
 			this.live=false;
 		}
+		
 	}
 	
 	public Rectangle getRect() {
