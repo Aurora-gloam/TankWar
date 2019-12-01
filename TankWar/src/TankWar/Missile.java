@@ -134,8 +134,8 @@ public class Missile {
 					t.setLive(false);
 				else {
 					if(t.isGood()) {
-						t.setX(400);
-						t.setY(600);
+						t.setX(280);
+						t.setY(580);
 					}
 				}
 	
@@ -162,9 +162,20 @@ public class Missile {
 	 * @return    是否撞到墙体，若是返回true，否则返回false
 	 */
 	public boolean hitWall(Wall w) {
-		if(this.live&&this.getRect().intersects(w.getRect())) {
+		if(this.live&&this.getRect().intersects(w.getRect())&&w.getType()!="grass"&&w.isLive()) {
 			this.live=false;
+			if(w.getType().equals("wall"))
+				w.setLive(false);
 			return true;
+		}
+		return false;
+	}
+	public boolean hitWall(List<Wall> walls) {
+		for(int i=0;i < walls.size();i++)
+		{
+			if(hitWall(walls.get(i))) {
+				return true;
+			}
 		}
 		return false;
 	}

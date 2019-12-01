@@ -30,13 +30,13 @@ public class Blood {
 	public Blood() {
 		this.h=30;
 		this.w=20;
-		this.x=450;
-		this.y=200;
 	}
 	
 	public void draw(Graphics g) {
 		if(step==0) {
-			this.live=false;
+			this.live=true;
+			this.x=r.nextInt(700)+50;
+			this.y=r.nextInt(500)+50;
 			step=r.nextInt(200)+100;
 		}
 		step--;

@@ -23,11 +23,11 @@ public class TankClient extends Frame{
 	public static final int GAME_WIDTH=800;//窗口宽度
 	public static final int GAME_HEIGHT=600;//窗口高度
 	
-	Tank myTank=new Tank(280,600,true,Direction.STOP,this);//己方坦克
-	Tank protectedTank=new Tank(400,600,true,Direction.STOP,this);//己方守护的坦克
+	Tank myTank=new Tank(280,560,true,Direction.STOP,this);//己方坦克
+	Tank protectedTank=new Tank(400,560,true,Direction.STOP,this);//己方守护的坦克
 	
-	Wall w1=new Wall(330,540,"wall"),w2=new Wall(450,540,"wall"),w3=new Wall(330,480,"wall");
-	Wall w4=new Wall(450,480,"wall"),w5=new Wall(390,480,"wall");//障碍物
+	Wall w4=new Wall(330,540,"wall"),w5=new Wall(450,540,"wall"),w3=new Wall(330,480,"wall");
+	Wall w1=new Wall(450,480,"wall"),w2=new Wall(390,480,"wall");//障碍物
 	
 	Blood bl=new Blood();//增长坦克生命的血块
 	
@@ -63,8 +63,8 @@ public class TankClient extends Frame{
 			Missile m=missiles.get(i);
 			m.hitTank(tanks);//进行与敌方坦克之间的碰撞检测，使之无法互相穿透
 			m.hitTank(myTank);//进行与己方坦克的碰撞检测，使之无法互相穿透
-			m.hitWall(w1);//进行与障碍物的碰撞检测，使之无法穿过障碍物
-			m.hitWall(w2);
+			m.hitTank(protectedTank);//进行与己方守护的坦克的碰撞检测，使之无法互相穿透
+			m.hitWall(walls);//进行与障碍物的碰撞检测，如是砖块则击碎的同时子弹消失；如是草地则子弹飞过；如是钢块则子弹消失
 			m.draw(g);//画出子弹
 		}
 		
@@ -75,6 +75,7 @@ public class TankClient extends Frame{
 		
 		for(int i=0;i<tanks.size();i++) {
 			Tank t=tanks.get(i);
+			t.eat(bl);
 			t.collideaWithTank(tanks);//进行敌方坦克之间的碰撞检测，使之无法互相穿透
 			t.collideaWithWall(walls);//进行与障碍物的碰撞检测，使之无法穿过障碍物
 			t.draw(g);

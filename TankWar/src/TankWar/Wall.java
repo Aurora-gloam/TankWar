@@ -16,6 +16,7 @@ public class Wall {
 	int x,y,w,h;//墙体的位置以及宽度、高度
 	TankClient tc;
 	String type=null;
+
 	private boolean live=true;
 
 	private static Toolkit tk=Toolkit.getDefaultToolkit();
@@ -61,6 +62,13 @@ public class Wall {
 	
 	public boolean isLive() {
 		return live;
+	}
+	public void setLive(boolean live) {
+		this.live=live;
+	}
+	
+	public String getType() {
+		return type;
 	}
 	
 	public Rectangle getRect() {
