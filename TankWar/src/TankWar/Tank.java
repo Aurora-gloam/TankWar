@@ -18,7 +18,7 @@ public class Tank {
 	public static final int YSPEED=5;
 	//坦克的生命状态
 	private boolean live=true;
-	private int life=5;//坦克的生命值
+	private int life=2;//坦克的生命值,普通坦克为2，敏捷型坦克为1，重型坦克为3
 
 	TankClient tc;
 	

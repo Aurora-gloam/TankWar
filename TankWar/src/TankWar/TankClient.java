@@ -42,8 +42,8 @@ public class TankClient extends Frame{
 	public void paint(Graphics g) {
 		g.drawString("missiles count:"+missiles.size(), 10, 50);
 		g.drawString("explodes count:"+explodes.size(), 10, 70);
-		g.drawString("enemy tanks count:"+tanks.size(), 10, 90);
-		g.drawString("mytank life:"+myTank.getLife(), 10, 110);
+		g.drawString("剩余敌方坦克数:"+tanks.size(), 10, 90);
+		g.drawString("生命值mytank life:"+myTank.getLife(), 10, 110);
 		
 		if(!myTank.isLive())
 			g.drawString("L O S T !", 400, 300);
@@ -108,7 +108,7 @@ public void update(Graphics g) {
 	public void lauchFrame() {
 		int initTankCount=Integer.parseInt(PropertyMgr.getProperty("initTankCount"));
 		for(int i=0;i<initTankCount;i++) {
-			tanks.add(new Tank(50+40*(i+1),50,false,Direction.D,this));
+			tanks.add(new AgilityTank(50+40*(i+1),50,false,Direction.D,this));
 		}
 		
 		this.setSize(GAME_WIDTH,GAME_HEIGHT);

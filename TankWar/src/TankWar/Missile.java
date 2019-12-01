@@ -22,7 +22,9 @@ public class Missile {
 	Direction dir;//子弹方向
 	
 	private boolean good;//子弹与坦克的统一类型
+	
 	private boolean live=true;//子弹的生命
+	
 	TankClient tc;//TankClient的引用
 	
 	private static Toolkit tk=Toolkit.getDefaultToolkit();
@@ -45,6 +47,12 @@ public class Missile {
 	
 	public boolean isLive() {//获取live
 		return live;
+	}
+	public void setLive(boolean live) {
+		this.live = live;
+	}
+	public boolean isGood() {
+		return good;
 	}
 
 	public Missile(int x, int y, Direction dir) {
@@ -121,19 +129,16 @@ public class Missile {
 	 */
 	public boolean hitTank(Tank t) {
 		if(this.live&&this.getRect().intersects(t.getRect())&&t.isLive()&&this.good!=t.isGood()) {
-			if(t.isGood()) {//如是己方坦克，生命值减一；如是敌方坦克，消失
 				t.setLife(t.getLife()-1);
 				if(t.getLife()<=0)
 					t.setLive(false);
 				else {
-					t.setX(400);
-					t.setY(600);
+					if(t.isGood()) {
+						t.setX(400);
+						t.setY(600);
+					}
 				}
-			}
-			else {
-				t.setLive(false);
-			}
-			
+	
 			this.live=false;
 			Explode e=new Explode(x,y,tc);
 			tc.explodes.add(e);
@@ -160,6 +165,28 @@ public class Missile {
 		if(this.live&&this.getRect().intersects(w.getRect())) {
 			this.live=false;
 			return true;
+		}
+		return false;
+	}
+	/**
+	 * 这个方法是判断撞击子弹，如敌我子弹相撞，两发子弹都消失
+	 * @param w   撞击到的墙体
+	 * @return    是否撞到墙体，若是返回true，否则返回false
+	 */
+	public boolean hitMissile(Missile m) {
+		if(this.live&&this.getRect().intersects(m.getRect())&&this.good!=m.isGood()) {
+			this.live=false;
+			m.setLive(false);
+			return true;
+		}
+		return false;
+	}
+	public boolean hitMissile(List<Missile> missiles) {
+		for(int i=0;i < missiles.size();i++)
+		{
+			if(hitMissile(missiles.get(i))) {
+				return true;
+			}
 		}
 		return false;
 	}
