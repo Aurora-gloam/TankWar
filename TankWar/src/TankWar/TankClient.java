@@ -23,11 +23,11 @@ public class TankClient extends Frame{
 	public static final int GAME_WIDTH=1000;//窗口宽度
 	public static final int GAME_HEIGHT=800;//窗口高度
 	
-	Tank myTank=new MyTank(280,560,true,Direction.STOP,this);//己方坦克
-	Tank protectedTank=new MyTank(400,560,true,Direction.STOP,this);//己方守护的坦克
+	Tank myTank=new MyTank(300,800,true,Direction.STOP,this);//己方坦克
+	Tank protectedTank=new MyTank(500,800,true,Direction.STOP,this);//己方守护的坦克
 	
-	Wall w4=new Wall(330,540,"wall"),w5=new Wall(450,540,"wall"),w3=new Wall(330,480,"wall");
-	Wall w1=new Wall(450,480,"wall"),w2=new Wall(390,480,"wall");//障碍物
+	Wall w4=new Wall(441,680,"wall"),w5=new Wall(561,680,"wall"),w3=new Wall(441,740,"wall");
+	Wall w1=new Wall(561,740,"wall"),w2=new Wall(501,680,"wall");//障碍物
 	
 	Blood bl=new Blood();//增长坦克生命的血块
 	
@@ -48,7 +48,7 @@ public class TankClient extends Frame{
 		g.drawString("剩余敌方坦克数:"+tanks.size(), 10, 90);
 		g.drawString("生命值mytank life:"+myTank.getLife(), 10, 110);
 		
-		if(!myTank.isLive())
+		if(!myTank.isLive()||!protectedTank.isLive())
 			g.drawString("很遗憾，您输了", 400, 300);
 		else if(tanks.size()==0)
 			g.drawString("恭喜，获得了胜利！", 400, 300);
@@ -84,6 +84,8 @@ public class TankClient extends Frame{
 		 myTank.draw(g);//画出己方坦克
 		 myTank.collideaWithWall(walls);//进行与障碍物的碰撞检测，使之无法穿过障碍物
 		 myTank.eat(bl);//己方坦克吃掉生命值增长的道具
+		 
+		 protectedTank.setLife(1);
 		 protectedTank.draw(g);
 		 
 		 walls.add(w1);
@@ -108,7 +110,7 @@ public void update(Graphics g) {
 		}
 		Graphics gOffScreen=offScreenImage.getGraphics();
 		Color c=gOffScreen.getColor();
-		gOffScreen.setColor(Color.GREEN);
+		gOffScreen.setColor(Color.BLACK);
 		gOffScreen.fillRect(0,0,GAME_WIDTH,GAME_HEIGHT);
 		gOffScreen.setColor(c);
 		paint(gOffScreen);
@@ -132,7 +134,7 @@ public void update(Graphics g) {
 		
 		this.setResizable(false);//禁止改变窗口大小
 		
-		this.setBackground(Color.GREEN);//窗口背景设置
+		this.setBackground(Color.BLACK);//窗口背景设置
 		
 		this.addKeyListener(new KeyMonitor());//设置键盘的监听
 		

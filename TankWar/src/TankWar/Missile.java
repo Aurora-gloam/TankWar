@@ -134,8 +134,8 @@ public class Missile {
 					t.setLive(false);
 				else {
 					if(t.isGood()) {
-						t.setX(280);
-						t.setY(580);
+						t.setX(300);
+						t.setY(800);
 					}
 				}
 	
