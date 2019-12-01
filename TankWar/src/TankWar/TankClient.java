@@ -20,11 +20,11 @@ import java.util.Properties;
  *
  */
 public class TankClient extends Frame{
-	public static final int GAME_WIDTH=800;//窗口宽度
-	public static final int GAME_HEIGHT=600;//窗口高度
+	public static final int GAME_WIDTH=1000;//窗口宽度
+	public static final int GAME_HEIGHT=800;//窗口高度
 	
-	Tank myTank=new Tank(280,560,true,Direction.STOP,this);//己方坦克
-	Tank protectedTank=new Tank(400,560,true,Direction.STOP,this);//己方守护的坦克
+	Tank myTank=new MyTank(280,560,true,Direction.STOP,this);//己方坦克
+	Tank protectedTank=new MyTank(400,560,true,Direction.STOP,this);//己方守护的坦克
 	
 	Wall w4=new Wall(330,540,"wall"),w5=new Wall(450,540,"wall"),w3=new Wall(330,480,"wall");
 	Wall w1=new Wall(450,480,"wall"),w2=new Wall(390,480,"wall");//障碍物
@@ -55,7 +55,7 @@ public class TankClient extends Frame{
 		
 		if(tanks.size()<=0) {
 			for(int i=0;i<Integer.parseInt(PropertyMgr.getProperty("reProduceTankCount"));i++) {
-				tanks.add(new Tank(50+40*(i+1),50,false,Direction.D,this));
+				tanks.add(new EnemyTank(50+40*(i+1),50,false,Direction.D,this));
 			}
 		}
 		
@@ -118,7 +118,7 @@ public void update(Graphics g) {
 	public void lauchFrame() {
 		int initTankCount=Integer.parseInt(PropertyMgr.getProperty("initTankCount"));
 		for(int i=0;i<initTankCount;i++) {
-			tanks.add(new AgilityTank(50+40*(i+1),50,false,Direction.D,this));
+			tanks.add(new AgilityTank(50+60*(i+1),50,false,Direction.D,this));
 		}
 		
 		this.setSize(GAME_WIDTH,GAME_HEIGHT);
